@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Página Inicial - Sistema de Reserva de Recursos</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+</head>
+
+<body>
+    <div class="container mt-5">
+        <h1 class="display-4">Bem-vindo ao Sistema de Reserva de Recursos</h1>
+        <p class="lead">Utilize o sistema para reservar salas, equipamentos e outros recursos disponíveis.</p>
+
+        <div class="list-group">
+            <a th:href="@{/reservations}" class="list-group-item list-group-item-action">Gerenciar Reservas</a>
+            <a th:href="@{/resources}" class="list-group-item list-group-item-action">Gerenciar Recursos</a>
+            <a th:href="@{/users}" class="list-group-item list-group-item-action">Gerenciar Usuários</a>
+        </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>

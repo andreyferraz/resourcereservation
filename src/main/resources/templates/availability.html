@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <title>Disponibilidade do Recurso</title>
+</head>
+<body>
+<div class="container mt-5">
+    <h1 class="text-center mb-4">Disponibilidade do Recurso</h1>
+    <div class="card mb-4">
+        <div class="card-body">
+            <h5 class="card-title">Resource: <span th:text="${resource.name}"></span></h5>
+            <p class="card-text">Below are the reservations for this resource in the selected date range:</p>
+        </div>
+    </div>
+    <table class="table table-bordered table-striped">
+        <thead class="thead-dark">
+        <tr>
+            <th>ID</th>
+            <th>Start Date</th>
+            <th>End Date</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="reservation : ${reservations}">
+            <td th:text="${reservation.id}"></td>
+            <td th:text="${reservation.startDate}"></td>
+            <td th:text="${reservation.endDate}"></td>
+        </tr>
+        </tbody>
+    </table>
+    <a href="/reservations" class="btn btn-secondary">Back to Reservations</a>
+</div>
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

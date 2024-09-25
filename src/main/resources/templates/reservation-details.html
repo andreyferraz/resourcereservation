@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <title>Detalhes da Reserva</title>
+</head>
+<body>
+<div class="container mt-5">
+    <h1 class="text-center mb-4">Detalhes da Reserva</h1>
+    <div class="card">
+        <div class="card-body">
+            <h5 class="card-title">Reservation ID: <span th:text="${reservation.id}"></span></h5>
+            <p class="card-text"><strong>Resource:</strong> <span th:text="${reservation.resource.name}"></span></p>
+            <p class="card-text"><strong>Start Date:</strong> <span th:text="${reservation.startDate}"></span></p>
+            <p class="card-text"><strong>End Date:</strong> <span th:text="${reservation.endDate}"></span></p>
+            <a href="/reservations" class="btn btn-primary">Voltar para lista</a>
+        </div>
+    </div>
+</div>
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
