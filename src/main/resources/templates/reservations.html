@@ -9,23 +9,27 @@
 <body>
 <div class="container mt-5">
     <h1 class="text-center mb-4">Reservas</h1>
-    
+
     <!-- Formulário para criação de nova reserva -->
     <div class="card mb-4">
         <div class="card-header">Criar Nova Reserva</div>
         <div class="card-body">
-            <form th:action="@{/reservations}" method="post">
+            <form th:action="@{/reservations}" th:object="${reservation}" method="post">
                 <div class="form-group">
                     <label for="resource">Recurso</label>
-                    <input type="text" id="resource" name="resource" class="form-control" required>
+                    <select id="resource" name="resource.id" class="form-control" required>
+                        <option th:each="resource : ${resources}" 
+                                th:value="${resource.id}" 
+                                th:text="${resource.name}">Selecione um recurso</option>
+                    </select>
                 </div>
                 <div class="form-group">
                     <label for="startDate">Data de Início</label>
-                    <input type="datetime-local" id="startDate" name="startDate" class="form-control" required>
+                    <input type="datetime-local" id="startDate" name="startTime" class="form-control" required>
                 </div>
                 <div class="form-group">
                     <label for="endDate">Data de Término</label>
-                    <input type="datetime-local" id="endDate" name="endDate" class="form-control" required>
+                    <input type="datetime-local" id="endDate" name="endTime" class="form-control" required>
                 </div>
                 <button type="submit" class="btn btn-primary">Criar Reserva</button>
             </form>
@@ -46,8 +50,8 @@
         <tr th:each="reservation : ${reservations}">
             <td th:text="${reservation.id}"></td>
             <td th:text="${reservation.resource.name}"></td>
-            <td th:text="${reservation.startDate}"></td>
-            <td th:text="${reservation.endDate}"></td>
+            <td th:text="${#dates.format(reservation.startTime, 'dd/MM/yyyy HH:mm')}"></td>
+            <td th:text="${#dates.format(reservation.endTime, 'dd/MM/yyyy HH:mm')}"></td>
             <td>
                 <a th:href="@{/reservations/{id}(id=${reservation.id})}" class="btn btn-info btn-sm">Detalhes</a>
                 <form th:action="@{/reservations/{id}/delete(id=${reservation.id})}" method="post" style="display:inline-block;">
