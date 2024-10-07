@@ -13,8 +13,8 @@
         <div class="card-body">
             <h5 class="card-title">Reservation ID: <span th:text="${reservation.id}"></span></h5>
             <p class="card-text"><strong>Resource:</strong> <span th:text="${reservation.resource.name}"></span></p>
-            <p class="card-text"><strong>Start Date:</strong> <span th:text="${reservation.startDate}"></span></p>
-            <p class="card-text"><strong>End Date:</strong> <span th:text="${reservation.endDate}"></span></p>
+            <p class="card-text"><strong>Start Date:</strong> <span th:text="${#temporals.format(reservation.startTime, 'dd/MM/yyyy HH:mm')}"></span></p>
+            <p class="card-text"><strong>End Date:</strong> <span th:text="${#temporals.format(reservation.endTime, 'dd/MM/yyyy HH:mm')}"></span></p>
             <a href="/reservations" class="btn btn-primary">Voltar para lista</a>
         </div>
     </div>
