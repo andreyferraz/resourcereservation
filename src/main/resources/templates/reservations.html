@@ -1,69 +1,76 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <title>Reservas</title>
 </head>
+
 <body>
-<div class="container mt-5">
-    <h1 class="text-center mb-4">Reservas</h1>
+    <div class="container mt-5">
+        <h1 class="text-center mb-4">Reservas</h1>
 
-    <!-- Formulário para criação de nova reserva -->
-    <div class="card mb-4">
-        <div class="card-header">Criar Nova Reserva</div>
-        <div class="card-body">
-            <form th:action="@{/reservations}" th:object="${reservation}" method="post">
-                <div class="form-group">
-                    <label for="resource">Recurso</label>
-                    <select id="resource" name="resource.id" class="form-control" required>
-                        <option th:each="resource : ${resources}" 
-                                th:value="${resource.id}" 
-                                th:text="${resource.name}">Selecione um recurso</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label for="startDate">Data de Início</label>
-                    <input type="datetime-local" id="startDate" name="startTime" class="form-control" required>
-                </div>
-                <div class="form-group">
-                    <label for="endDate">Data de Término</label>
-                    <input type="datetime-local" id="endDate" name="endTime" class="form-control" required>
-                </div>
-                <button type="submit" class="btn btn-primary">Criar Reserva</button>
-            </form>
-        </div>
-    </div>
-
-    <table class="table table-bordered table-striped">
-        <thead class="thead-dark">
-        <tr>
-            <th>ID</th>
-            <th>Recurso</th>
-            <th>Data de Início</th>
-            <th>Data de Término</th>
-            <th>Ações</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr th:each="reservation : ${reservations}">
-            <td th:text="${reservation.id}"></td>
-            <td th:text="${reservation.resource.name}"></td>
-            <td th:text="${#dates.format(reservation.startTime, 'dd/MM/yyyy HH:mm')}"></td>
-            <td th:text="${#dates.format(reservation.endTime, 'dd/MM/yyyy HH:mm')}"></td>
-            <td>
-                <a th:href="@{/reservations/{id}(id=${reservation.id})}" class="btn btn-info btn-sm">Detalhes</a>
-                <form th:action="@{/reservations/{id}/delete(id=${reservation.id})}" method="post" style="display:inline-block;">
-                    <button class="btn btn-danger btn-sm" type="submit">Excluir</button>
+        <!-- Formulário para criação de nova reserva -->
+        <div class="card mb-4">
+            <div class="card-header">Criar Nova Reserva</div>
+            <div class="card-body">
+                <form th:action="@{/reservations}" th:object="${reservation}" method="post">
+                    <div class="form-group">
+                        <label for="resource">Recurso</label>
+                        <select id="resource" class="form-control" th:field="*{resource.id}" required>
+                            <option value="" disabled selected>Selecione um recurso</option>
+                            <option th:each="resource : ${resources}" 
+                                    th:value="${resource.id}" 
+                                    th:text="${resource.name}"></option>
+                        </select>
+                    </div>                    
+                    <div class="form-group">
+                        <label for="startDate">Data de Início</label>
+                        <input type="datetime-local" id="startDate" name="startTime" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="endDate">Data de Término</label>
+                        <input type="datetime-local" id="endDate" name="endTime" class="form-control" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Criar Reserva</button>
                 </form>
-            </td>
-        </tr>
-        </tbody>
-    </table>
-    <a href="/" class="btn btn-secondary">Voltar</a>
-</div>
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
+            </div>
+        </div>
+
+        <table class="table table-bordered table-striped">
+            <thead class="thead-dark">
+                <tr>
+                    <th>ID</th>
+                    <th>Recurso</th>
+                    <th>Data de Início</th>
+                    <th>Data de Término</th>
+                    <th>Ações</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="reservation : ${reservations}">
+                    <td th:text="${reservation.id}"></td>
+                    <td th:text="${reservation.resource.name}"></td>
+                    <td th:text="${#temporals.format(reservation.startTime, 'dd/MM/yyyy HH:mm')}"></td>
+                    <td th:text="${#temporals.format(reservation.endTime, 'dd/MM/yyyy HH:mm')}"></td>                                      
+                    <td>
+                        <a th:href="@{/reservations/{id}(id=${reservation.id})}"
+                            class="btn btn-info btn-sm">Detalhes</a>
+                        <form th:action="@{/reservations/{id}/delete(id=${reservation.id})}" method="post"
+                            style="display:inline-block;">
+                            <button class="btn btn-danger btn-sm" type="submit">Excluir</button>
+                        </form>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <a href="/" class="btn btn-secondary">Voltar</a>
+    </div>
+    </script>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
+
 </html>

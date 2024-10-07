@@ -1,6 +1,7 @@
 package com.example.resourcereservation.controller;
 
 import com.example.resourcereservation.model.Reservation;
+import com.example.resourcereservation.model.Resource;
 import com.example.resourcereservation.service.ReservationService;
 import com.example.resourcereservation.service.ResourceService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -12,7 +13,10 @@ import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+
 import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.util.List;
 
 @Controller
 @RequestMapping("/reservations")
@@ -27,9 +31,32 @@ public class ReservationController {
     @GetMapping
     @Operation(summary = "Listar reservas", description = "Retorna uma lista de todas as reservas.")
     public String listReservations(Model model) {
-        model.addAttribute("reservations", reservationService.getAllReservations());
+        // Obtém a lista de reservas
+        List<Reservation> reservations = reservationService.getAllReservations();
+    
+        // Converte as datas de ZonedDateTime para LocalDateTime
+        reservations.forEach(reservation -> {
+            if (reservation.getStartTime() != null) {
+                reservation.setStartTime(reservation.getStartTime().atZone(ZoneId.of("UTC")).toLocalDateTime());
+            }
+            if (reservation.getEndTime() != null) {
+                reservation.setEndTime(reservation.getEndTime().atZone(ZoneId.of("UTC")).toLocalDateTime());
+            }
+        });
+    
+        // Adiciona a lista de reservas ao modelo
+        model.addAttribute("reservations", reservations);
+    
+        // Adiciona um novo objeto de reserva ao modelo
+        model.addAttribute("reservation", new Reservation());
+    
+        // Adiciona a lista de recursos ao modelo (certifique-se de ter esse método no seu serviço)
+        List<Resource> resources = resourceService.getAllResources();
+        model.addAttribute("resources", resources);
+    
         return "reservations"; // Página que lista todas as reservas
     }
+    
 
     @GetMapping("/{id}")
     @Operation(summary = "Obter reserva por ID", description = "Retorna os detalhes de uma reserva específica.")
@@ -49,9 +76,25 @@ public class ReservationController {
     @PostMapping
     @Operation(summary = "Criar nova reserva", description = "Cria uma nova reserva com os dados fornecidos.")
     public String createReservation(@Parameter(description = "Dados da reserva") @ModelAttribute Reservation reservation) {
+        // Certifique-se de que o Resource está salvo
+        Resource resource = resourceService.getResourceById(reservation.getResource().getId());
+        
+        // Verifica se o recurso foi encontrado
+        if (resource == null) {
+            // Tratar o caso em que o Resource não existe, talvez redirecionar ou exibir uma mensagem de erro
+            return "redirect:/reservations"; 
+        }
+    
+        // Atribui o Resource existente à reserva
+        reservation.setResource(resource);
+        
+        // Salva a nova reserva
         reservationService.saveReservation(reservation);
-        return "redirect:/reservations"; // Redireciona para a lista de reservas
+        
+        // Redireciona para a lista de reservas
+        return "redirect:/reservations"; 
     }
+    
 
     @PostMapping("/{id}")
     @Operation(summary = "Atualizar reserva", description = "Atualiza os dados de uma reserva existente.")
