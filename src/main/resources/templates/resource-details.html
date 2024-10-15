@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <title>Detalhes do Recurso</title>
+</head>
+<body>
+<div class="container mt-5">
+    <h1 class="text-center mb-4">Detalhes do Recurso</h1>
+    <div class="card">
+        <div class="card-body">
+            <h5 class="card-title">Nome: <span th:text="${resource.name}"></span></h5>
+            <p class="card-text"><strong>Tipo:</strong> <span th:text="${resource.type}"></span></p>
+            <p class="card-text"><strong>Descrição:</strong> <span th:text="${resource.description}"></span></p>
+            <a href="/resources" class="btn btn-primary">Voltar para lista</a>
+        </div>
+    </div>
+</div>
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
